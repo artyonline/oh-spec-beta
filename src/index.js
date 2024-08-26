@@ -1,9 +1,7 @@
 require('dotenv').config();
 const {Client, IntentsBitField} = require('discord.js');
 const { CommandKit } = require('commandkit');
-const { MongoClient, ServerApiVersion } = require('mongodb');
 const mongoose = require('mongoose')
-// require('discord-buttons')(Client)
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 
 
