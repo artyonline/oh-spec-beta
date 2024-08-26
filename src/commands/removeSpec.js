@@ -1,5 +1,4 @@
 const {StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ComponentType} = require('discord.js')
-const { SpecializationList } = require('../Assets/Specialization');
 const UserProfile = require('../Schemas/UserSchema');
 
 const data = {
