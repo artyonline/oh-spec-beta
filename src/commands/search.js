@@ -119,7 +119,7 @@ async function showCategorySpec(interaction, specializationList, category) {
 
         collector2.on('collect', async (interaction) => {
             if(interaction.values.length > 0) {
-                interaction.reply(interaction.values.join(', '))
+                interaction.reply(`Following Specializations are updated: ${interaction.values.join(', ')}`)
                 await updateDB(interaction, interaction.values);
             }
         });

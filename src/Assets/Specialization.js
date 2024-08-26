@@ -75,7 +75,7 @@ const SpecializationList = [
     label: "Super Refinery",
     description: "Transform Acid into Portable Mixed Fuel more efficiently.",
     value: 'xxx',
-    catergory: "Prospector"
+    catergory: "Smelter"
   },
   {
     label: "Basic Defense: Battle-Hardened",

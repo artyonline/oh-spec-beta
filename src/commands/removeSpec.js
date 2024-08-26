@@ -63,7 +63,7 @@ async function run({ interaction }) {
 
     collector.on('collect', async (interaction) => {
         if(interaction.values.length > 0) {
-            interaction.reply(interaction.values.join(', '))
+            interaction.reply(`Specializations Unassigned from you: ${interaction.values.join(', ')}`)
             await removeSpecAndSave(interaction, interaction.values);
         }
     });
