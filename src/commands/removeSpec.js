@@ -73,7 +73,6 @@ async function removeSpecAndSave(interaction, specList) {
     let currentUser = await UserProfile.findOne({
         userId: interaction.user.id
     });
-    console.log(currentUser.specialization)
     specList.forEach(spec => {
         var index = currentUser.specialization.indexOf(spec);
         if (index >= 0) {
