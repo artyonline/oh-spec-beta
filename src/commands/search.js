@@ -89,7 +89,7 @@ async function showCategorySpec(interaction, specializationList, category) {
             }
         })
     }
-    const maxLimit = categorySpec.length > 10 ? 10-currentUser.specialization.length : categorySpec.length - currentUser.specialization.length
+    const maxLimit = categorySpec.length > 10 ? 10-currentUser.specialization.length : categorySpec.length - currentUser.specialization.length > 0 ? categorySpec.length - currentUser.specialization.length : categorySpec.length
     const specMenu = new StringSelectMenuBuilder()
     .setCustomId(interaction.id)
     .setPlaceholder("Select Category to Begin!")
@@ -119,8 +119,9 @@ async function showCategorySpec(interaction, specializationList, category) {
 
         collector2.on('collect', async (interaction) => {
             if(interaction.values.length > 0) {
-                interaction.reply(`Following Specializations are updated: ${interaction.values.join(', ')}`)
-                await updateDB(interaction, interaction.values);
+                var status = await updateDB(interaction, interaction.values);
+                if (status == "Completed") interaction.reply(`Updating Specializations: ${interaction.values.join(', ')}`);
+                else if (status == "Aborted") interaction.reply(`<@${currentUser.userId}>Your Current Specialization Amount plus newly selected Specialization amount exceeds the maximum allowed 10, please consider removing old specializations using /remove-spec before selecting new ones. `)
             }
         });
 
@@ -143,16 +144,13 @@ async function updateDB(interaction, selectedSpec) {
             guildId: interaction.guildId,
         })
     }
+    var totalSpec = selectedSpec.length + currentUser.specialization.length;
+    if (totalSpec>=10) {
+        return "Aborted";
+    }
 
     if (selectedSpec.length > 0) {
         selectedSpec.forEach((spec, idx) => {
-            console.log(`Saving Spec: ${spec} at ${idx} for user: ${interaction.user.globalName}`);
-            var totalSpec = selectedSpec.length + currentUser.specialization.length;
-            if (totalSpec>=10) {
-                // interaction.reply("Your Current Specialization Amount plus newly selected Specialization amount exceeds the maximum allowed 10, please consider removing old specializations using /remove-spec before selecting new ones. ")
-                console.log("Your Current Specialization Amount plus newly selected Specialization amount exceeds the maximum allowed 10, please consider removing old specializations using /remove-spec before selecting new ones. ")
-                return;
-            }
             if(!(currentUser.specialization.includes(spec))) {
                 currentUser.specialization.push(spec)
             }
@@ -160,6 +158,7 @@ async function updateDB(interaction, selectedSpec) {
     }
 
     await currentUser.save();
+    return "Completed";
 }
 
 module.exports = {data, run};
